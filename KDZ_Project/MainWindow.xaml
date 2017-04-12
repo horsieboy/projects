@@ -4,9 +4,131 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KDZ_Project"
+        xmlns:models="clr-namespace:KDZ_Project.Models"
+
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        x:Name="window" Title="Launcher" ResizeMode="NoResize" Height="400" Width="1000" Icon="C:\Users\Самый Крутой Парень\Documents\Visual Studio 2015\Projects\KDZ_Project\favicon.ico">
+
+    <!--<Image  VerticalAlignment="Center" Source="C:\Users\Самый Крутой Парень\Documents\Visual Studio 2015\Projects\KDZ_Project\bg.jpg" Margin="-18,-27,-20,-14.5"/>
+        <Border Width="auto" Height="auto" BorderThickness="0" BorderBrush="#00ffffff" CornerRadius="0,0,30,30">
+            <StackPanel>
+                <Image Height="91" Width="180" Source="C:\Users\Самый Крутой Парень\Documents\Visual Studio 2015\Projects\KDZ_Project\tgt.png" Margin="10,10,10,0"/>
+                <TextBox Background="#30FFFFFF"  Width="180" Height="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"></TextBox>
+                <PasswordBox Background="#30FFFFFF" Width="180" Height="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10" SelectionOpacity="1"></PasswordBox>
+                <Button x:Name="Enter"  Width="120" Height="36" Content="Вход"  HorizontalAlignment="Center" BorderThickness="0" Margin="10"/>
+                <Button x:Name="Register" Click="RegisterWindow" Width="120" Height="36" Content="Регистрация"  HorizontalAlignment="Center" BorderThickness="0" Margin="10"/>
+            </StackPanel>
+        </Border>-->
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="123*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*">
+
+
+            </ColumnDefinition>
+            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DockPanel Dock="Bottom"  Grid.Column="0" Margin="8,8,4,4.8">
+            <Border BorderThickness="1" BorderBrush="Black">
+
+                <ListView Name="Tournament_ListView" SelectionChanged="Tournament_ListView_SelectionChanged" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Номер" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Дисциплина" DisplayMemberBinding="{Binding Discipline}"/>
+                        <GridViewColumn Header="Участники" DisplayMemberBinding="{Binding MaxUsersCount}"/>
+                        <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding DateStart}"/>
+                        <GridViewColumn Header="Окончание" DisplayMemberBinding="{Binding DateEnd}"/>
+                        <GridViewColumn Header="Победитель" DisplayMemberBinding="{Binding Winner}"/>
+                        <GridViewColumn Header="Место Проведения" DisplayMemberBinding="{Binding Place}"/>
+                        <GridViewColumn Header="Дата Отмены" DisplayMemberBinding="{Binding DateCanceled}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            </Border>
+        </DockPanel>
+        <DockPanel Dock="Bottom" Grid.Column="1" Margin="4,8,0,4.8" >
+            <Border BorderThickness="1" BorderBrush="Black" >
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                        <ColumnDefinition ></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Center">Авторизация</Label>
+                    <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center">Логин</Label>
+                    <Label Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center">Пароль</Label>
+                    <TextBox Text="{Binding ElementName=window,Path=Auth.Login}" Grid.Row="1" Grid.Column="1" Margin="0,0,5,2.5"></TextBox>
+                    <TextBox Text="{Binding ElementName=window,Path=Auth.Password}" Grid.Row="2" Grid.Column="2" Margin="0,2.5,5,0"></TextBox>
+                    <DockPanel Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" Margin="0,0,0,0">
+                        <Button  Click="Button_Click" Width="100" Height="20" Margin="0, 0 ,20, 0">Вход</Button>
+                        <Button Width="100" Height="20">Регистрация</Button>
+                    </DockPanel>
+                    <Label Grid.Row="3" Grid.ColumnSpan="2" Foreground="Red" x:Name="ErrorLabel"> </Label>
+                </Grid>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=window,Path=Auth.IsAuthorized}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=window,  Path=Auth.IsAuthorized}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <Border  BorderThickness="1" BorderBrush="Black" >
+                <Grid >
+                    <Grid.Resources>
+                        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                        <Label  HorizontalContentAlignment="Center">Имя Пользователя</Label>
+                        <Label HorizontalContentAlignment="Center">Дата Регистрации</Label>
+                        <Label HorizontalContentAlignment="Center">Статус</Label>
+                    </StackPanel>
+                    <ListBox Margin="5, 0, 5, 0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">Здесь будет выводиться информация о пользователе</ListBox>
+                    <Button Grid.Row="4" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >Редактировать</Button>
+                    <Button Grid.Row="4" Grid.Column="1" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click_1" >Выйти</Button>
+                </Grid>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=window,Path=Auth.IsAuthorized}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=window,  Path=Auth.IsAuthorized}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+        </DockPanel>
     </Grid>
 </Window>

@@ -25,6 +25,7 @@ namespace KDZ_Project.Properties
             {
                 return defaultInstance;
             }
+
         }
     }
 }
