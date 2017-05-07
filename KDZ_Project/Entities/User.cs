@@ -16,6 +16,7 @@ namespace KDZ_Project.Entities
         [ForeignKey("UserInfoId")]
         public virtual UserInfo UserInfo { get; set; }
         public virtual ICollection<Competition> Competitions { get; set; }
-
+        public DateTime RegDate { get; set; } = DateTime.Now;
+        public string Status { get; set; }
     }
 }

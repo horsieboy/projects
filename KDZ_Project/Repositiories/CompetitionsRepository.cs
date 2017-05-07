@@ -14,6 +14,40 @@ namespace KDZ_Project.Repositiories
 
         private CompetitiondbContext _context;
 
+        public void Update(CompetitionViewModel c)
+        {
+            var comp = _context.Competitions.FirstOrDefault(x => x.Id == c.Id);
+
+            var place = _context.Places.FirstOrDefault(x => x.Name == c.Place);
+
+            var discipline = _context.Disciplines.FirstOrDefault(x => x.Name == c.Discipline);
+
+            comp.Name = c.Name;
+            comp.PlaceId = place.Id;
+            comp.DisciplineId = discipline.Id;
+            comp.DateStart = c.DateStart;
+            comp.DateEnded = c.DateEnded;
+            comp.DateCanceled = c.DateCanceled;
+            comp.IsCanceled = c.IsCanceled;
+            comp.IsStarted = c.IsStarted;
+            comp.MaxUsersCount = c.MaxUsersCount;
+            comp.Prize = c.Prize;
+            //comp.Users = c.Users;
+            _context.SaveChanges();
+
+        }
+
+        public void Remove(int d)
+        {
+            var comp = _context.Competitions.FirstOrDefault(x => x.Id == d);
+
+            _context.Competitions.Remove(comp);
+
+            _context.SaveChanges();
+
+        }
+
+
         public CompetitionsRepository()
         {
             _context = new CompetitiondbContext();

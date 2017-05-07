@@ -11,18 +11,32 @@ namespace KDZ_Project.Models
     
    public  class UserViewModel:INotifyPropertyChanged
     {
+        private string _name;
+
+        private string _regdate;
+
+        private string _status;
+
         private String _login;
-        //переписать совйства на CompetitionViewModel
+       
         private String _password;
 
         private bool _isauthorized;
+
+        public int UserId { get; set; }
 
        public String Login { get { return _login; } set { _login = value; OnPropertyChanged(); } }
 
         public String Password { get { return _password; } set { _password = value; OnPropertyChanged(); } }
 
         public bool IsAuthorized { get { return _isauthorized; } set { _isauthorized = value; OnPropertyChanged(); } }
-        
+
+        public String Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }
+
+        public String RegDate { get { return _regdate; } set { _regdate = value; OnPropertyChanged(); } }
+
+        public String Status { get { return _status; } set { _status = value; OnPropertyChanged(); } }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName="")
         {

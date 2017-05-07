@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KDZ_Project"
         xmlns:models="clr-namespace:KDZ_Project.Models"
-
+        xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+        
         mc:Ignorable="d"
         x:Name="window" Title="Launcher" ResizeMode="NoResize" Height="400" Width="1000" Icon="C:\Users\Самый Крутой Парень\Documents\Visual Studio 2015\Projects\KDZ_Project\favicon.ico">
 
@@ -32,23 +33,118 @@
             <ColumnDefinition Width="0.3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <DockPanel Dock="Bottom"  Grid.Column="0" Margin="8,8,4,4.8">
-            <Border BorderThickness="1" BorderBrush="Black">
+            <Border BorderThickness="1" BorderBrush="Black" >
 
                 <ListView Name="Tournament_ListView" SelectionChanged="Tournament_ListView_SelectionChanged" >
                 <ListView.View>
                     <GridView>
+                        
                         <GridViewColumn Header="Номер" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Width="50"  Header="Статус">
+                                <GridViewColumn.CellTemplate >
+                                    <DataTemplate>
+                                        <Label Height="50" Width="50" >
+                                            <Label.Style>
+                                                <Style TargetType="{x:Type Label}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="1">
+                                                            <Setter Property="Background" Value="Green" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="2">
+                                                            <Setter Property="Background" Value="Yellow" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="3">
+                                                            <Setter Property="Background" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="Дисциплина" DisplayMemberBinding="{Binding Discipline}"/>
                         <GridViewColumn Header="Участники" DisplayMemberBinding="{Binding MaxUsersCount}"/>
                         <GridViewColumn Header="Начало" DisplayMemberBinding="{Binding DateStart}"/>
                         <GridViewColumn Header="Окончание" DisplayMemberBinding="{Binding DateEnd}"/>
-                        <GridViewColumn Header="Победитель" DisplayMemberBinding="{Binding Winner}"/>
                         <GridViewColumn Header="Место Проведения" DisplayMemberBinding="{Binding Place}"/>
                         <GridViewColumn Header="Дата Отмены" DisplayMemberBinding="{Binding DateCanceled}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=window,Path=Main.IsCompetitionSelected}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=window,  Path=Main.IsCompetitionSelected}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Black">
+                <Grid IsEnabled="{Binding ElementName=window, Path=Main.IsCreator}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Row="0" Text="{Binding ElementName=window, Path=Main.Competition.Name, StringFormat={}Название Соревнования - {0}}"  Grid.ColumnSpan="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+
+                    <Label Grid.Row="1" >Дисциплина</Label>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=window, Path=Main.Competition.Discipline}"></TextBox>
+
+                    <Label Grid.Row="1"  Grid.Column="2">Количество Участников</Label>
+                    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding ElementName=window, Path=Main.Competition.MaxUsersCount}"></TextBox>
+
+                    <Label Grid.Row="1" Grid.Column="4">Призовые</Label>
+                    <TextBox Grid.Row="1" Grid.Column="5" Text="{Binding ElementName=window, Path=Main.Competition.Prize}"></TextBox>
+
+                    <Label Grid.Row="2" >Место Проведения</Label>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=window, Path=Main.Competition.Place}"></TextBox>
+
+                    <Label Grid.Row="2" Grid.Column="2">Дата Начала</Label>
+                    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding ElementName=window, Path=Main.Competition.DateStart}"></TextBox>
+
+                    <Label Grid.Row="2" Grid.Column="4">Дата Окончания</Label>
+                    <TextBox Grid.Row="2" Grid.Column="5" Text="{Binding ElementName=window, Path=Main.Competition.DateEnded}"></TextBox>
+
+                    <Label Grid.Row="3"  Grid.Column="0">Дата Отмены</Label>
+                    <TextBox  Grid.Row="3" Grid.ColumnSpan="5" Grid.Column="1" Text="{Binding ElementName=window, Path=Main.Competition.DateCanceled}"></TextBox>
+
+                    <Button Grid.Row="4" Grid.ColumnSpan="2" Click="SaveCompetition">Сохранить</Button>
+
+                    <Button Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="2"  Click="RemoveCompetition">Удалить</Button>
+
+                    <Button x:Name="Cancel_Button" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="4" IsEnabled="True"  Click="Cancel" ice:Freeze="true">Отмена</Button>
+
+                </Grid>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=window,Path=Main.IsCompetitionSelected}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=window,  Path=Main.IsCompetitionSelected}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
             </Border>
         </DockPanel>
         <DockPanel Dock="Bottom" Grid.Column="1" Margin="4,8,0,4.8" >
@@ -72,8 +168,8 @@
                     <TextBox Text="{Binding ElementName=window,Path=Auth.Login}" Grid.Row="1" Grid.Column="1" Margin="0,0,5,2.5"></TextBox>
                     <TextBox Text="{Binding ElementName=window,Path=Auth.Password}" Grid.Row="2" Grid.Column="2" Margin="0,2.5,5,0"></TextBox>
                     <DockPanel Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" Margin="0,0,0,0">
-                        <Button  Click="Button_Click" Width="100" Height="20" Margin="0, 0 ,20, 0">Вход</Button>
-                        <Button Width="100" Height="20">Регистрация</Button>
+                        <Button  Click="Login" Width="100" Height="20" Margin="0, 0 ,20, 0">Вход</Button>
+                        <Button Click="Register" Width="100" Height="20">Регистрация</Button>
                     </DockPanel>
                     <Label Grid.Row="3" Grid.ColumnSpan="2" Foreground="Red" x:Name="ErrorLabel"> </Label>
                 </Grid>
@@ -108,13 +204,57 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=window,Path=Main.IsEdit}" Value="True">
+                                        <Setter Property="IsEnabled" Value="true" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=window,  Path=Main.IsEdit}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
                         <Label  HorizontalContentAlignment="Center">Имя Пользователя</Label>
+                        <TextBox Text="{Binding ElementName=window, Path=Auth.Name}"></TextBox>
                         <Label HorizontalContentAlignment="Center">Дата Регистрации</Label>
+                        <TextBox Text="{Binding ElementName=window, Path=Auth.RegDate}"></TextBox>
                         <Label HorizontalContentAlignment="Center">Статус</Label>
+                        <TextBox Text="{Binding ElementName=window, Path=Auth.Status}"></TextBox>
                     </StackPanel>
                     <ListBox Margin="5, 0, 5, 0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">Здесь будет выводиться информация о пользователе</ListBox>
-                    <Button Grid.Row="4" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >Редактировать</Button>
-                    <Button Grid.Row="4" Grid.Column="1" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click_1" >Выйти</Button>
+                    <Button Click="Edit" Grid.Row="4" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        <Button.Content>Редактировать</Button.Content>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=window,Path=Main.IsEdit}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=window,  Path=Main.IsEdit}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button  Click="Edit" Grid.Row="4" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        <Button.Content>Сохранить</Button.Content>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=window,Path=Main.IsEdit}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=window,  Path=Main.IsEdit}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Grid.Row="4" Grid.Column="1" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Exit" >Выйти</Button>
                 </Grid>
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">

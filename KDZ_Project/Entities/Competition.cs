@@ -10,6 +10,7 @@ namespace KDZ_Project.Entities
     [Table("Competitions")]
     public class Competition:Base.BaseIdEntity
     {
+        public int CreatorId { get; set; }
         public string Name { get; set; }
         public DateTime DateStart { get; set; }
         public int MaxUsersCount { get; set; }
@@ -25,6 +26,8 @@ namespace KDZ_Project.Entities
         [ForeignKey("Discipline")]
         public int DisciplineId { get; set; }
         //public virtual User Winner { get; set; }
+        [ForeignKey("CreatorId")]
+        public virtual User Creator { get; set; } 
         public virtual Disciplines Discipline { get; set; }
         public virtual Places Place { get; set; }
         public virtual ICollection<User> Users { get; set; }
