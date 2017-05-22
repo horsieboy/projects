@@ -8,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace KDZ_Project.Context
 {
-    public class DbInitializer:DropCreateDatabaseAlways<CompetitiondbContext>
+    public class DbInitializer
+#if DEBUG  
+        :DropCreateDatabaseAlways<CompetitiondbContext>
+#else
+        :CreateDatabaseIfNotExists<CompetitiondbContext>
+#endif 
     {
         protected override void Seed(CompetitiondbContext context)
         {

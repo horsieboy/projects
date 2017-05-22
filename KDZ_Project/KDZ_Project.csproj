@@ -88,8 +88,10 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\UserInfo.cs" />
     <Compile Include="Models\CompetitionViewModel.cs" />
+    <Compile Include="Models\CompetitionViewModel2.cs" />
     <Compile Include="Models\MainFormViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
+    <Compile Include="Models\UserViewModel2.cs" />
     <Compile Include="Repositiories\AuthRepository.cs" />
     <Compile Include="Repositiories\CompetitionsRepository.cs" />
     <Compile Include="Window1.xaml.cs">

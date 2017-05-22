@@ -10,6 +10,10 @@ namespace KDZ_Project.Models
 {
     public class CompetitionViewModel:INotifyPropertyChanged
     {
+        private IEnumerable<UserViewModel2> _users;
+
+        private int _contestants;
+
         private String _name;
 
         private DateTime _dateStart;
@@ -40,7 +44,9 @@ namespace KDZ_Project.Models
                     return 3.ToString();
                 return 2.ToString();
             } }
-        
+
+        public IEnumerable<UserViewModel2> Users { get { return _users; } set { _users = value; OnPropertyChanged(); } }
+        public int Contestants { get { return _contestants; } set { _contestants = value; OnPropertyChanged(); } }
         public string Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }
         public DateTime DateStart { get { return _dateStart; } set { _dateStart = value; OnPropertyChanged(); } }
         public int MaxUsersCount { get { return _maxUsersCount; } set { _maxUsersCount = value; OnPropertyChanged(); } }

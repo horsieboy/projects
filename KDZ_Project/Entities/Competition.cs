@@ -13,6 +13,7 @@ namespace KDZ_Project.Entities
         public int CreatorId { get; set; }
         public string Name { get; set; }
         public DateTime DateStart { get; set; }
+        //public int Contestants { get; set; }
         public int MaxUsersCount { get; set; }
         public double Prize { get; set; }
         public DateTime? DateEnded { get; set; }

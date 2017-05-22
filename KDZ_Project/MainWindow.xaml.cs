@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Data.Entity;
 using KDZ_Project.Models;
 using KDZ_Project.Repositiories;
+using System.Windows.Threading;
 
 namespace KDZ_Project
 {
@@ -35,9 +36,6 @@ namespace KDZ_Project
         
         public MainWindow()
         {
-          
-            
-
             InitializeComponent();
 
             _authRepository = new AuthRepository();
@@ -49,9 +47,9 @@ namespace KDZ_Project
 
         private void Login(object sender, RoutedEventArgs e)
         {
+            ErrorLabel.Content = "";
+
             int UserId = 0;
-
-
 
             if (Auth == null || String.IsNullOrWhiteSpace(Auth.Login) || String.IsNullOrWhiteSpace(Auth.Password))
             {
@@ -61,35 +59,66 @@ namespace KDZ_Project
             if (_authRepository.Authenticate(Auth.Login, Auth.Password, out UserId))
             {
                 Auth.IsAuthorized = true;
+
                 Auth.UserId = UserId;
+
                 var User = _authRepository.GetUser(UserId);
+
                 Auth.Name = User.UserInfo.FullName;
+
                 Auth.RegDate = User.RegDate.ToString("dd.MM.yyyy HH:mm:ss");
+
                 Auth.Status = User.Status;
 
+                password.Clear();
+
+                if (Main.IsCompetitionSelected && Main.Competition.CreatorId == Auth.UserId)
+
+                    Main.IsCreator = true;
+
+                Auth.Competitions = _competitionRepository.GetUserCompetitions(Auth.UserId);
             }
             else
             {
                 ErrorLabel.Content = "Неверный Логин или Пароль";
+
                 Auth.IsAuthorized = false;
             }
+
+           
+
         }
 
         private void Register(object sender, RoutedEventArgs e)
         {
+            ErrorLabel.Content = "";
+
             if (Auth == null || String.IsNullOrWhiteSpace(Auth.Login) || String.IsNullOrWhiteSpace(Auth.Password))
             {
                 ErrorLabel.Content = "Ввдеите логин и парлоь";
+
                 return;
             }
             if (!_authRepository.Check(Auth.Login))
             {
                 ErrorLabel.Content = "Такой пользователь уже существует";
+
                 return;
             }
+
             Auth.IsAuthorized = true;
+
            var user =  _authRepository.Create(Auth.Login, Auth.Password);
+
             Auth.UserId = user.Id;
+
+            password.Clear();
+
+            Auth.Competitions = _competitionRepository.GetUserCompetitions( Auth.UserId);
+
+            if (Main.IsCompetitionSelected && Main.Competition.CreatorId == Auth.UserId)
+
+                Main.IsCreator = true;
         }
 
         private void Tournament_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -101,21 +130,25 @@ namespace KDZ_Project
 
             Main.Competition = item;
 
-            //if (Auth.IsAuthorized)
+            if (Auth.IsAuthorized && item.CreatorId == Auth.UserId)
 
-            Main.IsCreator = true;//item.CreatorId == Auth.UserId;
+            Main.IsCreator = true;
             
             Main.IsCompetitionSelected = true;
 
+            Cancel_Button.IsEnabled = true;
 
+            Contestants.DataContext = _competitionRepository.GetCompetitionUsers(Main.Competition.Id);
         }
         private void Exit(object sender, RoutedEventArgs e)
         {
-            Auth = new UserViewModel();
+            Main.IsEdit = false;
 
-            Auth.IsAuthorized = false;
+            Auth.Reset();
 
-            Auth.UserId = 0;
+            Main.IsCreator = false;
+
+            
         }
 
         private void SaveCompetition(object sender, RoutedEventArgs e)
@@ -145,12 +178,40 @@ namespace KDZ_Project
 
             Main.Competition = null;
 
+            
+
             Tournament_ListView.SelectedIndex = -1;
         }
 
         private void Edit(object sender, RoutedEventArgs e)
         {
             Main.IsEdit = !Main.IsEdit;
+        }
+
+        private void password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            Auth.Password = password.Password;
+        }
+
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            this.Tournament_ListView.ItemsSource = _competitionRepository.GetCompetitions(search.Text);
+        }
+
+        private void Apply_Click(object sender, RoutedEventArgs e)
+        {
+            if (_competitionRepository.CanApply(Main.Competition.Id, Auth.UserId))
+            {
+                Main.CanApply = _competitionRepository.Apply(Main.Competition.Id, Auth.UserId);
+            }
+            else
+            {
+                Main.CanApply = _competitionRepository.Dismiss(Main.Competition.Id, Auth.UserId);
+            }
+
+            Main.Competition.Users = _competitionRepository.GetCompetitionUsers(Main.Competition.Id);
+
+            Auth.Competitions = _competitionRepository.GetUserCompetitions(Auth.UserId);
         }
     }
 }
