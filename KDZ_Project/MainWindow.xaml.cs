@@ -17,6 +17,7 @@ using System.Data.Entity;
 using KDZ_Project.Models;
 using KDZ_Project.Repositiories;
 using System.Windows.Threading;
+using KDZ_Project.Entities;
 
 namespace KDZ_Project
 {
@@ -43,6 +44,8 @@ namespace KDZ_Project
             _competitionRepository = new CompetitionsRepository();
 
             this.Tournament_ListView.ItemsSource = _competitionRepository.GetCompetitions();
+            this.Disciplines.ItemsSource = _competitionRepository.GetDisciplines();
+            this.Places.ItemsSource = _competitionRepository.GetPlaces();
         }
 
         private void Login(object sender, RoutedEventArgs e)
@@ -67,8 +70,6 @@ namespace KDZ_Project
                 Auth.Name = User.UserInfo.FullName;
 
                 Auth.RegDate = User.RegDate.ToString("dd.MM.yyyy HH:mm:ss");
-
-                Auth.Status = User.Status;
 
                 password.Clear();
 
@@ -153,9 +154,16 @@ namespace KDZ_Project
 
         private void SaveCompetition(object sender, RoutedEventArgs e)
         {
+            dynamic discId = ((dynamic)this.Disciplines.SelectedItem).Id;
+            dynamic placeId = ((dynamic)this.Disciplines.SelectedItem).Id;
 
-            _competitionRepository.Update(Main.Competition);
+            _competitionRepository.Update(Main.Competition, discId, placeId);
 
+            Cancel(sender, e);
+
+            Tournament_ListView.ItemsSource = _competitionRepository.GetCompetitions();
+
+            Tournament_ListView.UpdateLayout();
         }
 
         private void RemoveCompetition(object sender, RoutedEventArgs e)
@@ -200,6 +208,9 @@ namespace KDZ_Project
 
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
+            if (!Auth.IsAuthorized)
+                return;
+
             if (_competitionRepository.CanApply(Main.Competition.Id, Auth.UserId))
             {
                 Main.CanApply = _competitionRepository.Apply(Main.Competition.Id, Auth.UserId);
@@ -213,5 +224,14 @@ namespace KDZ_Project
 
             Auth.Competitions = _competitionRepository.GetUserCompetitions(Auth.UserId);
         }
+
+        private void Create(object sender, RoutedEventArgs e)
+        {
+            Main.Competition = new CompetitionViewModel { CreatorId = Auth.UserId };
+            Main.IsEdit = true;
+            Main.IsCompetitionSelected = true;
+            Main.IsCreator = true;
+        }
+
     }
 }

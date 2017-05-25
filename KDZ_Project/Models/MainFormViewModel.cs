@@ -31,7 +31,7 @@ namespace KDZ_Project.Models
 
         public bool IsCreator { get { return _IsCreator; } set { _IsCreator = value; OnPropertyChanged(); } }
 
-        public bool CanApply { get { return _canApply; } set { _canApply = value; OnPropertyChanged(); } }
+        public bool CanApply { get { return _canApply;  } set { _canApply = value; OnPropertyChanged(); } }
 
         public CompetitionViewModel Competition { get { return _competition; } set { _competition = value; OnPropertyChanged(); } }
 

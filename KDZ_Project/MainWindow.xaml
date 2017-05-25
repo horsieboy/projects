@@ -6,18 +6,15 @@
         xmlns:local="clr-namespace:KDZ_Project"
         xmlns:models="clr-namespace:KDZ_Project.Models"
         xmlns:ice="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-        
         mc:Ignorable="d"
         x:Name="window" Title="Launcher" ResizeMode="NoResize" Height="400" Width="1000" Icon="C:\Users\Самый Крутой Парень\Documents\Visual Studio 2015\Projects\KDZ_Project\favicon.ico">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-
+            <RowDefinition Height="0.1*" />
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.7*">
-            </ColumnDefinition>
+            <ColumnDefinition Width="0.7*"></ColumnDefinition>
             <ColumnDefinition Width="0.3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0">
@@ -26,14 +23,14 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.43*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.37*"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0">Введите искомое мероприятие</Label>
-                <TextBox x:Name="search" KeyUp="TextBox_KeyUp" Margin="5" Grid.Row="0" Grid.Column="1" ></TextBox>
+                <Label Margin="0, 8, 0, 0" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Grid.Row="0" Grid.Column="0">Введите искомое мероприятие: </Label>
+                <TextBox x:Name="search" KeyUp="TextBox_KeyUp" Margin="0, 8, 0, 0" Grid.Row="0" Grid.Column="1" ></TextBox>
             </Grid>
         </DockPanel>
-        <DockPanel Dock="Bottom"  Grid.Row="1" Grid.Column="0" Margin="8,8,4,4.8">
+        <DockPanel Dock="Bottom"  Grid.Row="1" Grid.Column="0" Margin="5,8,5,5">
             <Border BorderThickness="1" BorderBrush="Black" >
                 <ListView Name="Tournament_ListView" SelectionChanged="Tournament_ListView_SelectionChanged" >
                     <ListView.View>
@@ -89,8 +86,8 @@
             <Border BorderThickness="1" BorderBrush="Black">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.2*"></RowDefinition>
-                        <RowDefinition Height="0.8*"></RowDefinition>
+                        <RowDefinition Height="0.1*"></RowDefinition>
+                        <RowDefinition Height="0.9*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -98,17 +95,14 @@
                     <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-
-                        <Button Height="42" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" x:Name="Cancel_Button" Click="Cancel" Margin="0,0,0.5,0.5">Отмена</Button>
-
-                        <Button Height="42" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" x:Name="Apply" Click="Apply_Click" Margin="0,0,0.5,0.5">
+                        <Button Height="30" Width="100" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Cancel_Button" Click="Cancel" Margin="0,0,0.5,0.5">Отмена</Button>
+                        <Button Height="30" Width="100" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Apply" Click="Apply_Click" Margin="0,0,0.5,0.5">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Style.Triggers >
@@ -122,8 +116,7 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-
-                        <ComboBox x:Name="Contestants" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding ElementName=window, Path=Main.Competition.Users}" DisplayMemberPath="Name" SelectedValue="Id"></ComboBox>
+                        <ComboBox Width="150" x:Name="Contestants" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" ItemsSource="{Binding ElementName=window, Path=Main.Competition.Users}" DisplayMemberPath="Name" SelectedValue="Id"></ComboBox>
                     </Grid>
                     <Grid Grid.Row="1" IsEnabled="{Binding ElementName=window, Path=Main.IsCreator}">
                         <Grid.RowDefinitions>
@@ -134,45 +127,59 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15*"></ColumnDefinition>
-                            <ColumnDefinition Width="15*"></ColumnDefinition>
-                            <ColumnDefinition Width="10*"></ColumnDefinition>
-                            <ColumnDefinition Width="5*" ></ColumnDefinition>
-                            <ColumnDefinition Width="15*"></ColumnDefinition>
-                            <ColumnDefinition Width="15*"></ColumnDefinition>
-                            <ColumnDefinition Width="16*"></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"  Grid.ColumnSpan="4" Margin="0,0,-0.5,0" >Название Соревнования -</Label>
-                        <TextBox Grid.Row="0" Text="{Binding ElementName=window, Path=Main.Competition.Name}"  Grid.ColumnSpan="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,-0.5,0"></TextBox>
+                        <TextBox Grid.Row="0" Text="{Binding ElementName=window, Path=Main.Competition.Name}"  Grid.ColumnSpan="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
 
-                        <Label Grid.Row="1" >Дисциплина</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=window, Path=Main.Competition.Discipline}"></TextBox>
+                        
+                        
+                        <Label Grid.Row="1" Grid.Column="0">Дисциплина</Label>
+                        <ComboBox SelectedValue="Id" DisplayMemberPath="Name" Grid.Row="1" Grid.Column="1" x:Name="Disciplines"></ComboBox>
 
-                        <Label Grid.Row="2"  Grid.Column="2" Grid.ColumnSpan="2">Количество Участников</Label>
-                        <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding ElementName=window, Path=Main.Competition.MaxUsersCount}"></TextBox>
+                        <Label Grid.Row="1"  Grid.Column="2" Grid.ColumnSpan="2">
+                            <TextBlock>
+                                Количество<LineBreak/>Участников
+                            </TextBlock>
+                        </Label>
+                        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding ElementName=window, Path=Main.Competition.MaxUsersCount}"></TextBox>
 
-                        <Label Grid.Row="1" Grid.Column="5">Призовые</Label>
-                        <TextBox Grid.Row="1" Grid.Column="6" Text="{Binding ElementName=window, Path=Main.Competition.Prize}" Margin="0,0,-0.5,0"></TextBox>
+                        <Label Grid.Row="1" Grid.Column="4">Призовые</Label>
+                        <TextBox Grid.Row="1" Grid.Column="5" Text="{Binding ElementName=window, Path=Main.Competition.Prize}"></TextBox>
 
-                        <Label Grid.Row="2" >Место Проведения</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=window, Path=Main.Competition.Place}"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="0">
+                            <TextBlock>
+                                Место<LineBreak/> Проведения
+                            </TextBlock>
+                        </Label>
+                        <ComboBox DisplayMemberPath="Name" SelectedValue="Id" Grid.Row="2" Grid.Column="1" x:Name="Places"></ComboBox>
 
-                        <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">Дата Начала</Label>
-                        <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding ElementName=window, Path=Main.Competition.DateStart}"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
+                            <TextBlock>Дата <LineBreak/>Начала</TextBlock></Label>
+                        <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding ElementName=window, Path=Main.Competition.DateStart}"></TextBox>
 
-                        <Label Grid.Row="2" Grid.Column="5">Дата Окончания</Label>
-                        <TextBox Grid.Row="2" Grid.Column="6" Text="{Binding ElementName=window, Path=Main.Competition.DateEnded}" Margin="0,0,-0.5,0"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="4">
+                            <TextBlock>Дата
+                            <LineBreak/> Окончания
+                            </TextBlock>
+                        </Label>
+                        <TextBox Grid.Row="2" Grid.Column="5" Text="{Binding ElementName=window, Path=Main.Competition.DateEnded}"></TextBox>
 
-                        <Label Grid.Row="3"  Grid.Column="0">Дата Отмены</Label>
-                        <TextBox  Grid.Row="3" Grid.ColumnSpan="6" Grid.Column="1" Text="{Binding ElementName=window, Path=Main.Competition.DateCanceled}" Margin="0,0,-0.5,0"></TextBox>
+                        <!--<Label Grid.Row="3"  Grid.Column="0">Дата Отмены</Label>
+                        <TextBox  Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=window, Path=Main.Competition.DateCanceled}" ></TextBox>
 
-                        <Label Grid.Row="3"  Grid.Column="3">Свободные места</Label>
-                        <TextBox  Grid.Row="3" Grid.ColumnSpan="6" Grid.Column="4"  Margin="0,0,-0.5,0"></TextBox>
+                        <Label Grid.Row="3"  Grid.Column="2">Свободные места</Label>
+                        <TextBox  Grid.Row="3" Grid.Column="3"  ></TextBox>
 
-                        <Label Grid.Row="3"  Grid.Column="5">Возможность Записи</Label>
-                        <TextBox  Grid.Row="3" Grid.ColumnSpan="6" Grid.Column="6"  Margin="0,0,-0.5,0"></TextBox>
+                        <Label Grid.Row="3"  Grid.Column="4">Возможность Записи</Label>
+                        <TextBox  Grid.Row="3" Grid.Column="5"  Text="{Binding ElementName=window, Path=Main.Competition.Application}"></TextBox>-->
 
-                        <Button Grid.Row="4" Grid.ColumnSpan="2" Click="SaveCompetition" Margin="0,0,0,0.5">Сохранить</Button>
+                        <Button Grid.Row="4" Grid.ColumnSpan="2" Click="SaveCompetition">Сохранить</Button>
 
                         <Button Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="2"  Click="RemoveCompetition" Margin="0,0,0,0.5">Удалить</Button>
                     </Grid>
@@ -190,48 +197,9 @@
                     </Style>
                 </Border.Style>
             </Border>
-
         </DockPanel>
-        <DockPanel Dock="Bottom" Grid.Column="1" Grid.RowSpan="2" Margin="4,8,0,4.8" >
-            <Border BorderThickness="1" BorderBrush="Black" >
-                <Grid VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="0.25*"></ColumnDefinition>
-                        <ColumnDefinition ></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Center">Авторизация</Label>
-                    <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center">Логин</Label>
-                    <Label Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center">Пароль</Label>
-                    <TextBox Text="{Binding ElementName=window,Path=Auth.Login}" Grid.Row="1" Grid.Column="1" Margin="0,0,5,2.5"></TextBox>
-                    <PasswordBox x:Name="password" PasswordChar="*" PasswordChanged="password_PasswordChanged" Grid.Row="2" Grid.Column="2" Margin="0,2.5,5,0"></PasswordBox>
-                    <DockPanel Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" Margin="0,0,0,0">
-                        <Button  Click="Login" Width="100" Height="20" Margin="0, 0 ,20, 0">Вход</Button>
-                        <Button Click="Register" Width="100" Height="20">Регистрация</Button>
-                    </DockPanel>
-                    <Label Grid.Row="3" Grid.ColumnSpan="2" Foreground="Red" x:Name="ErrorLabel"></Label>
-                </Grid>
-                <Border.Style>
-                    <Style TargetType="{x:Type Border}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=window,Path=Auth.IsAuthorized}" Value="True">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ElementName=window,  Path=Auth.IsAuthorized}" Value="False">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-            </Border>
-            <Border  BorderThickness="1" BorderBrush="Black" >
+        <DockPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Margin="4,8,0,5" >
+            <Border BorderThickness="1" BorderBrush="Black" Margin="0, 0, 5, 0" >
                 <Grid >
                     <Grid.Resources>
                         <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
@@ -243,14 +211,16 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="0.24*"></RowDefinition>
+                        <RowDefinition Height="0.15*"></RowDefinition>
+                        <RowDefinition Height="0.15*"></RowDefinition>
+                        <RowDefinition Height="0.18*"></RowDefinition>
+                        <RowDefinition Height="0.18*"></RowDefinition>
+                        <RowDefinition Height="0.1*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
+                    <DockPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                        <DockPanel.Style>
+                            <Style TargetType="DockPanel">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=window,Path=Main.IsEdit}" Value="True">
                                         <Setter Property="IsEnabled" Value="true" />
@@ -260,16 +230,15 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </StackPanel.Style>
-                        <Label  HorizontalContentAlignment="Center">Имя Пользователя</Label>
-                        <TextBox Text="{Binding ElementName=window, Path=Auth.Name}"></TextBox>
-                        <Label HorizontalContentAlignment="Center">Дата Регистрации</Label>
-                        <TextBox Text="{Binding ElementName=window, Path=Auth.RegDate}"></TextBox>
-                        <Label HorizontalContentAlignment="Center">Статус</Label>
-                        <TextBox Text="{Binding ElementName=window, Path=Auth.Status}"></TextBox>
-                    </StackPanel>
-                    <ListBox Margin="5, 0, 5, 0" Grid.Row="1" ItemsSource="{Binding ElementName=window, Path=Auth.Competitions}" DisplayMemberPath="Name" SelectedValuePath="Id" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"></ListBox>
-                    <Button Click="Edit" Grid.Row="4" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        </DockPanel.Style>
+                    </DockPanel>
+                    <Button Grid.ColumnSpan="2" Margin="20" Click="Create" >СОЗДАТЬ!</Button>
+                    <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" >Имя Пользователя</Label>
+                    <TextBox  Margin="5" Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=window, Path=Auth.Name}"></TextBox>
+                    <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Center">Дата Регистрации</Label>
+                    <TextBox  Margin="5" Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=window, Path=Auth.RegDate}"></TextBox>
+                    <ListBox  Margin="5" Grid.Row="3" ItemsSource="{Binding ElementName=window, Path=Auth.Competitions}" DisplayMemberPath="Name" SelectedValuePath="Id" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"></ListBox>
+                    <Button Click="Edit" Grid.Row="5" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >
                         <Button.Content>Редактировать</Button.Content>
                         <Button.Style>
                             <Style TargetType="Button">
@@ -284,7 +253,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button  Click="Edit" Grid.Row="4" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <Button  Click="Edit" Grid.Row="5" Grid.Column="0" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" >
                         <Button.Content>Сохранить</Button.Content>
                         <Button.Style>
                             <Style TargetType="Button">
@@ -299,7 +268,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Grid.Row="3" Width="100" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right" Click="Exit" Grid.ColumnSpan="2" Margin="-36,35,-45,34.5" >Выйти</Button>
+                    <Button Grid.Row="5" Width="100" Height="20"  Click="Exit"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" >Выйти</Button>
                 </Grid>
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
@@ -309,6 +278,43 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding ElementName=window,  Path=Auth.IsAuthorized}" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="Black" Margin="0, 0, 5, 0" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.75*" ></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="0.24*"></RowDefinition>
+                        <RowDefinition Height="0.18*"></RowDefinition>
+                        <RowDefinition Height="0.18*"></RowDefinition>
+                        <RowDefinition Height="0.15*"></RowDefinition>
+                        <RowDefinition Height="0.15*"></RowDefinition>
+                        <RowDefinition Height="0.1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="3" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Логин</Label>
+                    <Label Grid.Row="4" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Пароль</Label>
+                    <TextBox Text="{Binding ElementName=window,Path=Auth.Login}" Grid.Row="3" Grid.Column="1" Margin="5, 10, 5, 10"></TextBox>
+                    <PasswordBox x:Name="password" PasswordChar="*" PasswordChanged="password_PasswordChanged" Grid.Row="4" Grid.Column="2" Margin="5, 10, 5, 10"></PasswordBox>
+                    <DockPanel Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Center">
+                        <Button Margin="5" Click="Login" Width="100" Height="20" HorizontalAlignment="Left">Вход</Button>
+                        <Button Margin="5" Click="Register" Width="100" Height="20">Регистрация</Button>
+                    </DockPanel>
+                    <Label Grid.Row="2" Grid.ColumnSpan="2" Foreground="Red" x:Name="ErrorLabel"></Label>
+                </Grid>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=window,Path=Auth.IsAuthorized}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=window,  Path=Auth.IsAuthorized}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

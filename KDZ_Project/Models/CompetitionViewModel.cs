@@ -31,7 +31,6 @@ namespace KDZ_Project.Models
         private bool _isStarted;
 
         private String _place;
-
         private string _discipline;
 
         private int _id;
@@ -45,7 +44,10 @@ namespace KDZ_Project.Models
                 return 2.ToString();
             } }
 
+
         public IEnumerable<UserViewModel2> Users { get { return _users; } set { _users = value; OnPropertyChanged(); } }
+
+
         public int Contestants { get { return _contestants; } set { _contestants = value; OnPropertyChanged(); } }
         public string Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }
         public DateTime DateStart { get { return _dateStart; } set { _dateStart = value; OnPropertyChanged(); } }
@@ -55,8 +57,10 @@ namespace KDZ_Project.Models
         public bool IsCanceled { get { return _isCanceled; } set { _isCanceled = value; OnPropertyChanged(); } }
         public DateTime? DateCanceled { get { return _dateCanceled; } set { _dateCanceled = value; OnPropertyChanged(); } }
         public bool IsStarted { get { return _isStarted; } set { _isStarted = value; OnPropertyChanged(); } }
+
         public string Place { get { return _place; } set { _place = value; OnPropertyChanged(); } }
         public string Discipline { get { return _discipline; } set { _discipline = value; OnPropertyChanged(); } }
+
         public int Id { get { return _id; } set { _id = value; OnPropertyChanged(); } }
         public string Creator { get; set; }
         public int CreatorId { get; set; }

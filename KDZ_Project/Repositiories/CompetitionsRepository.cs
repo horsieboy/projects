@@ -15,11 +15,7 @@ namespace KDZ_Project.Repositiories
 
         private IQueryable<Competition> GetQuary()
             {
-
-
             return _context.Competitions.Include(x => x.Creator).Include(x => x.Discipline).Include(x => x.Place).Include(x=>x.Users);
-
-
             }
 
         private CompetitionViewModel Map(Competition x)
@@ -39,24 +35,45 @@ namespace KDZ_Project.Repositiories
                 CreatorId = x.Creator.Id,
                 IsStarted = x.IsStarted,
                 Place = x.Place.Name,
-                Discipline = x.Discipline.Name,
+                Discipline = x.Discipline.Name
             };
         }
 
         private CompetitiondbContext _context;
 
-        public void Update(CompetitionViewModel c)
+        public void Update(CompetitionViewModel c, int discId, int placeId)
         {
-            var comp = _context.Competitions.FirstOrDefault(x => x.Id == c.Id);
+            Competition comp = null;
 
-            var place = _context.Places.FirstOrDefault(x => x.Name == c.Place);
+            if (c.Id == 0)
+            {
+                comp = new Competition { };
 
-            var discipline = _context.Disciplines.FirstOrDefault(x => x.Name == c.Discipline);
+                _context.Competitions.Add(comp);
+            }
+            else
+            {
+                comp = _context.Competitions.FirstOrDefault(x => x.Id == c.Id);
+          }
 
-            //comp.Contestants = c.Users.Count();
+            var place = _context.Places.FirstOrDefault(x => x.Id == placeId);
+            var discipline = _context.Disciplines.FirstOrDefault(x => x.Id == discId);
+
             comp.Name = c.Name;
-            comp.PlaceId = place.Id;
-            comp.DisciplineId = discipline.Id;
+
+            if (place != null)
+                comp.PlaceId = place.Id;
+            else
+
+                comp.PlaceId = 1;
+
+
+            if (discipline != null)
+                comp.DisciplineId = discipline.Id;
+            else
+
+                comp.DisciplineId = 1;
+
             comp.DateStart = c.DateStart;
             comp.DateEnded = c.DateEnded;
             comp.DateCanceled = c.DateCanceled;
@@ -64,8 +81,10 @@ namespace KDZ_Project.Repositiories
             comp.IsStarted = c.IsStarted;
             comp.MaxUsersCount = c.MaxUsersCount;
             comp.Prize = c.Prize;
-            _context.SaveChanges();
+            comp.CreatorId = c.CreatorId;
+            
 
+            _context.SaveChanges();
         }
 
         public void Remove(int d)
@@ -119,6 +138,7 @@ namespace KDZ_Project.Repositiories
             var comp = GetQuary().FirstOrDefault(x => x.Id == compid);
 
             return comp.MaxUsersCount - comp.Users.Count > 0 && !comp.Users.Any(u => u.Id == userid);
+
         }
 
         public IEnumerable<UserViewModel2> GetCompetitionUsers(int compId)
@@ -135,6 +155,16 @@ namespace KDZ_Project.Repositiories
                 Id = x.Id,
                 Name = x.Name,
             }).ToList();
+        }
+
+        public IEnumerable<Places> GetPlaces()
+        {
+            return _context.Places.ToList();
+        }
+
+        public IEnumerable<Disciplines> GetDisciplines()
+        {
+            return _context.Disciplines.ToList();
         }
     }
 }
